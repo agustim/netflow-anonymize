@@ -30,7 +30,10 @@ function stepTwo(){
   });
 
   lineLog.on('line', function (line) {
-    console.log(flowAnonymize.lineAnonymize(line, IPv4Ranges));
+    fs.appendFile('./example/ano_total_linies_csv.txt', flowAnonymize.lineAnonymize(line, IPv4Ranges) + "\n", function (err) {
+      if (err) console.error("Error to write file: "+err);
+    });
+    process.stdout.write("+");
   });
-
+  console.log("End of file");
 }
