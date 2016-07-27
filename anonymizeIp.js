@@ -1,5 +1,4 @@
 'use strict'
-const EventEmitter = require('events').EventEmitter;
 const sha256 = require('js-sha256');
 const IpUtils = require('./ipUtils');
 
