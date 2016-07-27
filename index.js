@@ -3,6 +3,9 @@
 var exec = require('child_process').exec;
 const readline = require('readline');
 const IpUtils = require('./ipUtils');
+const AnonymizeIp = require('./anonymizeIp.js');
+
+var anonymizeIp = new AnonymizeIp();
 var IPv4Ranges = [];
 
 /* Get IP from guifi */
@@ -15,4 +18,8 @@ linereader.on('line', function (data) {
 });
 
 /* When read all ips start analisis */
-child.stdout.on('end', () => { console.log(IPv4Ranges);console.log("All IPv4 Range was be created.") })
+child.stdout.on('end', () => { console.log("All IPv4 Range was be created.") })
+
+function stepTwo(){
+
+}
