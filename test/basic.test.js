@@ -16,12 +16,19 @@ describe('Testing de Flow Anonymize:', function(){
   it('Get Rangs', function(){
     expect(ipUtils.cidrv4ToRangeIP("192.168.0.0/24")).toEqual([ '192.168.0.0', '192.168.0.255' ]);
   })
-  it('Is IP in Rang?', function() {
+  it('This IP Is in Rang', function() {
     arr = []
     arr.push(ipUtils.cidrv4ToRange("192.168.0.1/24"));
     arr.push(ipUtils.cidrv4ToRange("10.139.40.0/24"));
 
     expect(ipUtils.isInRangv4("10.139.40.123", arr )).toEqual(true);
+  })
+  it('This IP is not in Rang?', function() {
+    arr = []
+    arr.push(ipUtils.cidrv4ToRange("192.168.0.1/24"));
+    arr.push(ipUtils.cidrv4ToRange("10.139.40.0/24"));
+
+    expect(ipUtils.isInRangv4("10.138.40.123", arr )).toEqual(false);
   })
   it('Get AnonymizeIp', function(){
     expect(anonymizeIp.anonymize("192.168.0.1")).toEqual("55.215.168.6");
