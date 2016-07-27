@@ -2,9 +2,12 @@
 
 var exec = require('child_process').exec;
 const readline = require('readline');
+const fs  = require("fs");
 const IpUtils = require('./ipUtils');
-const AnonymizeIp = require('./anonymizeIp.js');
+const AnonymizeIp = require('./anonymizeIp');
+const FlowAnonymize = require('./flowAnonymize');
 
+var flowAnonymize = new FlowAnonymize();
 var anonymizeIp = new AnonymizeIp();
 var IPv4Ranges = [];
 
@@ -18,8 +21,16 @@ linereader.on('line', function (data) {
 });
 
 /* When read all ips start analisis */
-child.stdout.on('end', () => { console.log("All IPv4 Range was be created.") })
+child.stdout.on('end', () => { console.log("All IPv4 Range was be created."); stepTwo() })
 
 function stepTwo(){
+
+  var lineLog = require('readline').createInterface({
+    input: require('fs').createReadStream('./example/total_linies_csv.txt')
+  });
+
+  lineLog.on('line', function (line) {
+    console.log(flowAnonymize.lineAnonymize(line, IPv4Ranges));
+  });
 
 }
