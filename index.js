@@ -10,6 +10,16 @@ const FlowAnonymize = require('./flowAnonymize');
 var flowAnonymize = new FlowAnonymize();
 var anonymizeIp = new AnonymizeIp();
 var IPv4Ranges = [];
+var inputFile;
+var outputFile;
+
+if (process.argv.length < 4){
+  console.log("Need input file in csv, and name to output file.");
+  console.log("<program> <input_file> <output_file>");
+  process.exit();
+}
+inputFile = process.argv[2];
+outputFile = process.argv[3];
 
 /* Get IP from guifi */
 var child = exec(`whois -h whois.ripe.net -- '-i origin AS49835'|grep route|egrep -o [[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+\/[[:digit:]]+`);
@@ -26,11 +36,11 @@ child.stdout.on('end', () => { console.log("All IPv4 Range was be created."); st
 function stepTwo(){
 
   var lineLog = require('readline').createInterface({
-    input: require('fs').createReadStream('./example/total_linies_csv.txt')
+    input: require('fs').createReadStream('./example/' + inputFile)
   });
 
   lineLog.on('line', function (line) {
-    fs.appendFile('./example/ano_total_linies_csv.txt', flowAnonymize.lineAnonymize(line, IPv4Ranges) + "\n", function (err) {
+    fs.appendFile('./def/' + outputFile, flowAnonymize.lineAnonymize(line, IPv4Ranges) + "\n", function (err) {
       if (err) console.error("Error to write file: "+err);
     });
     process.stdout.write("+");
